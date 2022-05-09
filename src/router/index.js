@@ -9,6 +9,7 @@ import RestaurantSignupView from '@/views/RestaurantSignupView.vue'
 import RestaurantLoginView from '@/views/RestaurantLoginView.vue'
 import RestaurantView from '@/views/RestaurantView.vue'
 import RestaurantProfileView from '@/views/RestaurantProfileView.vue'
+import RestaurantMenuView from '@/views/RestaurantMenuView.vue'
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,12 @@ const routes = [
     name: 'RestaurantProfileView',
     component: RestaurantProfileView
   },
+  {
+    path: '/RestaurantMenuView',
+    name: 'RestaurantMenuView',
+    component: RestaurantMenuView
+  },
+
   
 ]
 

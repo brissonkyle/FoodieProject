@@ -39,9 +39,10 @@
         color="primary"
         >Menu Search
         </v-btn>
-        </v-container>
-        <v-container>
-            <h2 v-if="handleGetMenuItem">{{name}}</h2>
+        <v-btn @click="handleUpdateMenuItem"
+        color="primary"
+        >Update Item
+        </v-btn>
         </v-container>
     </div>
 </template>
@@ -68,17 +69,27 @@ import {mapActions} from 'pinia'
         
         },
         ...mapActions(useCallingApiStore, ['getMenuItem']),
-            handleGetMenuItem(restaurantId) {
-                this.getMenuItem(restaurantId);
+            handleGetMenuItem() {
+                this.getMenuItem();
         
-        }
+        },
+        ...mapActions(useCallingApiStore, ['updateMenuItem']),
+            handleUpdateMenuItem() {
+                this.updateMenuItem();
+        
+        },
+        // ...mapActions(useCallingApiStore, ['menuPopulate']),
+        //     handleMenuPopulate() {
+        //     this.menuPopulate(this.name, this.description, this.price, this.imageUrl,);
+        // },
     },
     data :() => ({
         name : '',
         description : "",
         price : '',
-        imageUrl : '',
-        restaurantId : '53'
+        imageUrl : undefined,
+        restaurantId : '',
+        
     }),
 
     mounted () {
@@ -89,7 +100,7 @@ import {mapActions} from 'pinia'
                 this.handleError(response);
                 })
             }
-        });
+        })
     }
 }
 </script>

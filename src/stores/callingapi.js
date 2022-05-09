@@ -10,7 +10,47 @@ export const useCallingApiStore = defineStore('api',{
         }
     },
 
+    // mounted () {
+    //     this.menuPopulate(this.$route.params.query)
+    // },
+
+    // data() {
+    //     return {
+    //         description : '',
+    //         imageUrl : '',
+    //         name : '',
+    //         price : ''
+    //     }
+    // },
+
+    // watch : {
+    //     $route (newValue){
+    //         this.menuPopulate(newValue.params.query)
+    //     }
+    // },
+
+    methods: {
+
+    },
+
     actions : {
+        // async menuPopulate() {
+        //     axios.request ({
+        //         url : process.env.VUE_APP_API_URL + 'menu',
+        //         method : "GET",
+        //         headers : {
+        //             'x-api-key' : process.env.VUE_APP_API_KEY,
+        //         },
+        //     }).then((response) => {
+        //         this.description = response.data.description
+        //         this.name = response.data.name
+        //         this.price = response.data.price
+        //         this.imageUrl = response.data.imageUrl
+        //     }).catch((error)=>{
+        //         console.log(error);
+        //     })
+        // },
+
         async clientCreatedApi( email, username, firstName, lastName, password, pictureUrl ) {
             axios.request({
                 headers : {
@@ -118,7 +158,6 @@ export const useCallingApiStore = defineStore('api',{
             }).then((response)=>{
                 router.push('RestaurantView');
                 cookies.set('sessionToken', response.data.token)
-                console.log(cookies.get('sessionToken'));
                 console.log(response);
             }).catch((error)=> {
                 console.log(error);
@@ -139,14 +178,15 @@ export const useCallingApiStore = defineStore('api',{
                 },
             }).then((response)=>{
                 console.log(response);
-                cookies.set('sessionToken' , response.data.token);
+                cookies.set('sessionToken', response.data.token)
+                cookies.set('restaurantId' , response.data.restaurantId);
                 router.push('RestaurantView')
             }).catch((error)=> {
                 console.log(error);
             })
         },
         
-        async restaurantUpdateApi (name, address, bio, city, password, phoneNum,) {
+        async restaurantUpdateApi (name, address, bio, city, password, phoneNum, menuId) {
             axios.request({
                 url : process.env.VUE_APP_API_URL + 'restaurant',
                 method : 'PATCH',
@@ -161,6 +201,7 @@ export const useCallingApiStore = defineStore('api',{
                     city,
                     password,
                     phoneNum,
+                    menuId,
                     // bannerUrl : null,
                     // profileUrl : null,
                 },
@@ -184,6 +225,7 @@ export const useCallingApiStore = defineStore('api',{
                 console.log(response);
                 console.log('It worked');
                 cookies.remove('sessionToken');
+                cookies.remove('restaurantId');
                 router.push('/')
                 
             }).catch((error)=> {
@@ -218,7 +260,7 @@ export const useCallingApiStore = defineStore('api',{
         },
 
 
-        async getMenuItem(restaurantId) {
+        async getMenuItem() {
             axios.request ({
                 url : process.env.VUE_APP_API_URL + 'menu',
                 method : 'GET',
@@ -227,12 +269,39 @@ export const useCallingApiStore = defineStore('api',{
                     'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
 
-                data : {
-                    restaurantId,
+                params : {
+                    restaurantId : cookies.get('restaurantId')
                 },
 
             }).then((response)=>{
                 console.log(response);
+            }).catch((error)=> {
+                console.log(error);
+            })
+        },
+
+
+        async updateMenuItem(name, description, price, imageUrl) {
+            axios.request ({
+                url : process.env.VUE_APP_API_URL + 'menu',
+                method : 'PATCH',
+
+                headers : {
+                    token : cookies.get('sessionToken'),
+                    'x-api-key' : process.env.VUE_APP_API_KEY,
+                },
+
+                params : {
+                    name,
+                    description,
+                    price,
+                    imageUrl,
+                    
+                },
+
+            }).then((response)=>{
+                console.log(response);
+                cookies.get('sessionToken');
             }).catch((error)=> {
                 console.log(error);
             })

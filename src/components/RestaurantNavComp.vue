@@ -21,7 +21,10 @@
                     <router-link to="/RestaurantProfileView">Profile Page</router-link>
                 </v-list-item>
                 <v-list-item>
-                    <v-btn @click="handleTokenDestroy">Logout</v-btn>
+                    <router-link to="/RestaurantMenuView">View Menu</router-link>
+                </v-list-item>
+                <v-list-item>
+                    <v-btn color="red" @click="handleTokenDestroy">Logout</v-btn>
                 </v-list-item>
             </v-list>
         </v-menu>
