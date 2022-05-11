@@ -10,47 +10,11 @@ export const useCallingApiStore = defineStore('api',{
         }
     },
 
-    // mounted () {
-    //     this.menuPopulate(this.$route.params.query)
-    // },
-
-    // data() {
-    //     return {
-    //         description : '',
-    //         imageUrl : '',
-    //         name : '',
-    //         price : ''
-    //     }
-    // },
-
-    // watch : {
-    //     $route (newValue){
-    //         this.menuPopulate(newValue.params.query)
-    //     }
-    // },
-
     methods: {
 
     },
 
     actions : {
-        // async menuPopulate() {
-        //     axios.request ({
-        //         url : process.env.VUE_APP_API_URL + 'menu',
-        //         method : "GET",
-        //         headers : {
-        //             'x-api-key' : process.env.VUE_APP_API_KEY,
-        //         },
-        //     }).then((response) => {
-        //         this.description = response.data.description
-        //         this.name = response.data.name
-        //         this.price = response.data.price
-        //         this.imageUrl = response.data.imageUrl
-        //     }).catch((error)=>{
-        //         console.log(error);
-        //     })
-        // },
-
         async clientCreatedApi( email, username, firstName, lastName, password, pictureUrl ) {
             axios.request({
                 headers : {
@@ -98,11 +62,59 @@ export const useCallingApiStore = defineStore('api',{
             }).catch((error)=> {
                 console.log(error);
             })
+        }, 
+
+        async clientOrderApi(restaurantId, menuItems) {
+            axios.request({
+                url : process.env.VUE_APP_API_URL + 'order',
+                method : "DELETE",
+                headers : {
+                    token : cookies.get('clientSessionToken'),
+                    'x-api-key' : process.env.VUE_APP_API_KEY,
+                },
+                data : {
+                    restaurantId,
+                    menuItems,
+                }
+
+            }).then((response)=>{
+                console.log(response);
+            }).catch((error)=> {
+                console.log(error);
+            })
         },
+
+        async clientUpdateApi( email, username, firstName, lastName, password, pictureUrl ) {
+            axios.request({
+                headers : {
+                    token : cookies.get('clientSessionToken'),
+                    'x-api-key' : process.env.VUE_APP_API_KEY,
+                },
+                url : process.env.VUE_APP_API_URL + 'client',
+                method : "POST",
+                data : {
+                    email,
+                    username,
+                    firstName,
+                    lastName,
+                    password,
+                    pictureUrl : pictureUrl,
+                }
+            }).then((response)=>{
+                console.log(response)
+            }).catch((error)=> {
+                console.log(error);
+                this.userCreatedAlert(error.response)
+            })
+        },
+        userUpdateAlert(error){
+            return (error)
+        },
+
 
         async clientDeleteApi() {
             axios.request({
-                url : 'https://foodierest.ml/api/client',
+                url : process.env.VUE_APP_API_URL + 'client',
                 method : "DELETE",
                 headers : {
                     token : cookies.get('clientSessionToken'),
@@ -128,6 +140,8 @@ export const useCallingApiStore = defineStore('api',{
                 console.log(response);
                 console.log('It worked');
                 cookies.remove('clientSessionToken');
+                cookies.remove('restaurantId'),
+                cookies.remove('menuId')
                 router.push('/')
                 
             }).catch((error)=> {
@@ -201,7 +215,7 @@ export const useCallingApiStore = defineStore('api',{
                     city,
                     password,
                     phoneNum,
-                    menuId,
+                    menuId : menuId
                     // bannerUrl : null,
                     // profileUrl : null,
                 },

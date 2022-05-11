@@ -16,17 +16,20 @@
             label="Edit Picture URL"
         ></v-text-field>
         <v-text-field
+            v-model="name"
             outlined
             append-outer-icon="mdi-account"
             label="Edit Username"
         ></v-text-field>
         <v-text-field
+            v-model="email"
             outlined
             append-outer-icon="mdi-email"
-            label="Edit E-mail"
+            label="EMAIL MUST REMAIN THE SAME"
             required
         ></v-text-field>
         <v-text-field
+        v-model="name"
             outlined
             append-outer-icon="mdi-lock"
             name="input-10-1"
@@ -37,6 +40,7 @@
             width="200"
             color="primary"
             elevation="9"
+            @click="handleClientUpdate"
         >
             Save Changes
         </v-btn>
@@ -65,13 +69,25 @@ import {mapActions} from 'pinia'
             ClientNavComp,
         },
 
+
+        data :() => ({
+            name : '',
+            email : '',
+            password : '',
+            pictureUrl : undefined,
+        }),
+
         methods: {
         ...mapActions(useCallingApiStore, ['clientDeleteApi']),
         handleClientDelete() {
-                this.clientDeleteApi()
+                    this.clientDeleteApi()
         
+        },
+        ...mapActions(useCallingApiStore, ['clientUpdateApi']),
+        handleClientUpdate() {
+                this.clientUpdateApi(this.name, this.email, this.password, this.pictureUrl)
     }
-    },
+    }
     }
 </script>
 

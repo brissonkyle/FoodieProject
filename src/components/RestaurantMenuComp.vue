@@ -14,9 +14,9 @@
             {{ item.name }}
         </h1> -->
         <v-card
-    class="mx-auto my-12"
-    max-width="600"
-    >
+        class="mx-auto my-12"
+        max-width="600"
+        >
 
     <!-- <v-img v-for="imageUrl in menuObject" :key="imageUrl"
         height="250"
