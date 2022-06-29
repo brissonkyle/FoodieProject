@@ -17,10 +17,7 @@ export const useCallingApiStore = defineStore('api',{
     actions : {
         async clientCreatedApi( email, username, firstName, lastName, password, pictureUrl ) {
             axios.request({
-                headers : {
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
-                },
-                url : process.env.VUE_APP_API_URL + 'client',
+                url : process.env.VUE_APP_API_URL + '/api/client',
                 method : "POST",
                 data : {
                     email,
@@ -45,10 +42,9 @@ export const useCallingApiStore = defineStore('api',{
 
         async clientLoginApi(email, password) {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'client-login',
+                url : process.env.VUE_APP_API_URL + '/api/client-login',
                 method : 'POST',
                 headers : {
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 data : {
                     email ,
@@ -66,11 +62,10 @@ export const useCallingApiStore = defineStore('api',{
 
         async clientOrderApi(restaurantId, menuItems) {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'order',
+                url : process.env.VUE_APP_API_URL + '/api/order',
                 method : "DELETE",
                 headers : {
                     token : cookies.get('clientSessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 data : {
                     restaurantId,
@@ -88,9 +83,8 @@ export const useCallingApiStore = defineStore('api',{
             axios.request({
                 headers : {
                     token : cookies.get('clientSessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
-                url : process.env.VUE_APP_API_URL + 'client',
+                url : process.env.VUE_APP_API_URL + '/api/client',
                 method : "POST",
                 data : {
                     email,
@@ -114,11 +108,10 @@ export const useCallingApiStore = defineStore('api',{
 
         async clientDeleteApi() {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'client',
+                url : process.env.VUE_APP_API_URL + '/api/client',
                 method : "DELETE",
                 headers : {
                     token : cookies.get('clientSessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
             }).then((response)=>{
                 console.log(response);
@@ -129,11 +122,10 @@ export const useCallingApiStore = defineStore('api',{
 
         async clientTokenDestroy() {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'restaurant-login',
+                url : process.env.VUE_APP_API_URL + '/api/restaurant-login',
                 method : 'DELETE',
                 headers : {
                     token : cookies.get('clientSessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 
             }).then((response)=>{
@@ -152,11 +144,10 @@ export const useCallingApiStore = defineStore('api',{
         
         async restaurantCreateApi (name, address, bio, city, email, password, phoneNum,) {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'restaurant',
+                url : process.env.VUE_APP_API_URL + '/api/restaurant',
                 method : 'POST',
                 headers : {
                     // token : '',
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 data : {
                     name,
@@ -181,10 +172,9 @@ export const useCallingApiStore = defineStore('api',{
 
         async restaurantLoginApi(email, password) {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'restaurant-login',
+                url : process.env.VUE_APP_API_URL + '/api/restaurant-login',
                 method : 'POST',
                 headers : {
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 data : {
                     email,
@@ -202,11 +192,10 @@ export const useCallingApiStore = defineStore('api',{
         
         async restaurantUpdateApi (name, address, bio, city, password, phoneNum, menuId) {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'restaurant',
+                url : process.env.VUE_APP_API_URL + '/api/restaurant',
                 method : 'PATCH',
                 headers : {
                     token : cookies.get('sessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 data : {
                     name,
@@ -228,11 +217,10 @@ export const useCallingApiStore = defineStore('api',{
 
         async restaurantTokenDestroy() {
             axios.request({
-                url : process.env.VUE_APP_API_URL + 'restaurant-login',
+                url : process.env.VUE_APP_API_URL + '/api/restaurant-login',
                 method : 'DELETE',
                 headers : {
                     token : cookies.get('sessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
                 
             }).then((response)=>{
@@ -250,12 +238,11 @@ export const useCallingApiStore = defineStore('api',{
 
         async createMenuItem(name, description, price, imageUrl) {
             axios.request ({
-                url : process.env.VUE_APP_API_URL + 'menu',
+                url : process.env.VUE_APP_API_URL + '/api/menu',
                 method : 'POST',
 
                 headers : {
                     token : cookies.get('sessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
 
                 data : {
@@ -276,11 +263,10 @@ export const useCallingApiStore = defineStore('api',{
 
         async getMenuItem() {
             axios.request ({
-                url : process.env.VUE_APP_API_URL + 'menu',
+                url : process.env.VUE_APP_API_URL + '/api/menu',
                 method : 'GET',
 
                 headers : {
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
                 },
 
                 params : {
@@ -297,12 +283,12 @@ export const useCallingApiStore = defineStore('api',{
 
         async updateMenuItem(name, description, price, imageUrl) {
             axios.request ({
-                url : process.env.VUE_APP_API_URL + 'menu',
+                url : process.env.VUE_APP_API_URL + '/api/menu',
                 method : 'PATCH',
 
                 headers : {
                     token : cookies.get('sessionToken'),
-                    'x-api-key' : process.env.VUE_APP_API_KEY,
+                    
                 },
 
                 params : {
